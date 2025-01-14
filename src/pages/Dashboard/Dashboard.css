@@ -1,0 +1,85 @@
+/* Import leaflet CSS */
+@import 'leaflet/dist/leaflet.css';
+
+/* Container styling */
+.dashboard-map-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Fix untuk icon marker */
+.leaflet-default-icon-path {
+    background-image: url(https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png);
+}
+
+/* Map container */
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Dark theme untuk popup */
+.leaflet-popup-content-wrapper {
+    background: var(--popup-bg, #1a1f2c);
+    color: var(--popup-color, white);
+}
+
+.leaflet-popup-tip {
+    background: var(--popup-bg, #1a1f2c);
+}
+
+/* Dark theme untuk controls */
+.leaflet-bar a {
+    background: var(--control-bg, #1a1f2c) !important;
+    color: var(--control-color, white) !important;
+    border-color: var(--control-border, #374151) !important;
+}
+
+.leaflet-bar a:hover {
+    background: var(--control-hover, #374151) !important;
+}
+
+/* Custom styling untuk map buttons */
+.map-type-button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.map-type-button.active {
+    background: white;
+    color: #1a1f2c;
+}
+
+.map-type-button.inactive {
+    background: #374151;
+    color: white;
+}
+
+/* Active users panel */
+.active-users-panel {
+    background: #1a1f2c;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* CSS variables untuk theme */
+:root[class='light'] {
+    --popup-bg: white;
+    --popup-color: #1a1f2c;
+    --control-bg: white;
+    --control-color: #1a1f2c;
+    --control-border: #e5e7eb;
+    --control-hover: #f3f4f6;
+}
+
+:root[class='dark'] {
+    --popup-bg: #1a1f2c;
+    --popup-color: white;
+    --control-bg: #1a1f2c;
+    --control-color: white;
+    --control-border: #374151;
+    --control-hover: #374151;
+} 

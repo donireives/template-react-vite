@@ -29,6 +29,8 @@ import {
 import { useNavigate } from 'react-router';
 import { getUserData, removeUserData, removeTokens } from '@/utils/storage';
 import { useTheme } from '@/hooks/useTheme';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import './Dashboard.css';
 
 const { Title } = Typography;
 
@@ -38,6 +40,12 @@ function Dashboard() {
     const userData = getUserData();
     const { token: { colorBgContainer } } = theme.useToken();
     const { theme: currentTheme, toggleTheme } = useTheme();
+
+    // Definisikan URL tile untuk light dan dark mode
+    const mapTiles = {
+        dark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        light: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+    };
 
     // Definisikan customerItems di dalam component
     const customerItems = [
@@ -321,15 +329,74 @@ function Dashboard() {
 
                 {/* Main Content Area */}
                 <main className="pt-20 px-6">
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 dark:text-gray-200">
-                        <Title level={4} className="dark:text-gray-200">Body</Title>
-                        {/* Add your content here */}
+                    <div className="bg-[#1a1f2c] rounded-lg shadow-lg overflow-hidden">
+                        {/* Map Header */}
+                        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+                            <div className="flex space-x-4">
+                                <button className="bg-blue-600 text-white px-4 py-2 rounded">
+                                    ACTIVITY
+                                </button>
+                                <button className="bg-gray-700 text-white px-4 py-2 rounded">
+                                    MAPS
+                                </button>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <div className="text-white">Tracking</div>
+                                <button className="bg-gray-700 text-white px-4 py-2 rounded">
+                                    FILTER
+                                </button>
+                                <div className="flex items-center space-x-2">
+                                    <span className="text-white">Active Users</span>
+                                    <span className="bg-gray-700 text-white px-2 py-1 rounded">1</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Map Container */}
+                        <div className="relative h-[80vh]">
+                            <div className="absolute top-4 left-4 z-[999] flex space-x-2">
+                                <button className="map-type-button active">
+                                    Map
+                                </button>
+                                <button className="map-type-button inactive">
+                                    Satellite
+                                </button>
+                            </div>
+                            
+                            <MapContainer 
+                                center={[-6.2088, 106.8456]} 
+                                zoom={5} 
+                                className="dashboard-map-container"
+                                zoomControl={false}
+                            >
+                                <TileLayer
+                                    url={currentTheme === 'dark' ? mapTiles.dark : mapTiles.light}
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                                />
+                                <Marker position={[-6.2088, 106.8456]}>
+                                    <Popup>
+                                        Test Location
+                                    </Popup>
+                                </Marker>
+                            </MapContainer>
+
+                            {/* Active Users Sidebar */}
+                            <div className="absolute top-20 right-4 active-users-panel w-64 p-4 z-[999]">
+                                <div className="flex items-center space-x-3">
+                                    <div className="w-8 h-8 bg-gray-600 rounded-full"></div>
+                                    <div>
+                                        <div className="text-white">Test2</div>
+                                        <div className="text-gray-400 text-sm">Last Login: 2025-01-10 11:25:14</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </main>
             </div>
 
             {/* Floating Theme Toggle Button */}
-            <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-50">
+            <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-[9999]">
                 <Button
                     type="primary"
                     shape="circle"
