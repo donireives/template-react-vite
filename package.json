@@ -14,9 +14,11 @@
     "antd": "^5.22.7",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
+    "leaflet": "^1.9.4",
     "postcss": "^8.4.49",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-leaflet": "^5.0.0",
     "react-router": "^7.1.1",
     "tailwindcss": "^3.4.17"
   },
