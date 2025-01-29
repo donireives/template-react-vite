@@ -2,8 +2,6 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { App as AntApp, ConfigProvider, theme } from "antd";
 import Login from '@/pages/Auth/Login';
-import LandingPage from '@/pages/Landing/LandingPage';
-import Home from '@/pages/Home/Home';
 import Dashboard from '@/pages/Dashboard/Dashboard';
 import { StrictMode } from 'react';
 import { useTheme } from '@/hooks/useTheme';
@@ -33,10 +31,9 @@ createRoot(document.getElementById('root')).render(
       <AntApp>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>
       </AntApp>

@@ -5,10 +5,7 @@ import {
     MenuUnfoldOutlined,
     UserOutlined,
     DashboardOutlined,
-    LayoutOutlined,
-    BgColorsOutlined,
     HistoryOutlined,
-    QuestionCircleOutlined,
     SettingOutlined,
     CaretDownOutlined,
     BulbOutlined,
@@ -25,14 +22,40 @@ import {
     FormOutlined,
     CheckSquareOutlined,
     AreaChartOutlined,
+    LogoutOutlined,
+    QuestionCircleOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router';
 import { getUserData, removeUserData, removeTokens } from '@/utils/storage';
 import { useTheme } from '@/hooks/useTheme';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import './Dashboard.css';
+import { useThemeClass } from '@/hooks/useThemeClass';
 
 const { Title } = Typography;
+
+// Tambahkan CSS untuk sidebar
+const sidebarStyle = {
+    width: '256px',
+    minHeight: '100vh',
+    transition: 'width 0.3s ease'
+};
+
+const collapsedSidebarStyle = {
+    width: '80px',
+    minHeight: '100vh',
+    transition: 'width 0.3s ease'
+};
+
+const mainContentStyle = {
+    marginLeft: '256px',
+    transition: 'margin-left 0.3s ease'
+};
+
+const collapsedMainContentStyle = {
+    marginLeft: '80px',
+    transition: 'margin-left 0.3s ease'
+};
 
 function Dashboard() {
     const [collapsed, setCollapsed] = useState(false);
@@ -40,6 +63,7 @@ function Dashboard() {
     const userData = getUserData();
     const { token: { colorBgContainer } } = theme.useToken();
     const { theme: currentTheme, toggleTheme } = useTheme();
+    const { getTextClass, getBgClass, getTextMutedClass } = useThemeClass();
 
     // Definisikan URL tile untuk light dan dark mode
     const mapTiles = {
@@ -238,135 +262,174 @@ function Dashboard() {
         },
     ];
 
-    useEffect(() => {
-        if (!userData) {
-            navigate('/login');
-        }
-    }, [navigate]);
-
     const handleLogout = () => {
         removeUserData();
         removeTokens();
         navigate('/login');
     };
 
+    // Tambahkan items untuk user dropdown
+    const userMenuItems = [
+        {
+            key: 'profile',
+            label: 'My Profile',
+            icon: <UserOutlined />,
+            onClick: () => navigate('/profile')
+        },
+        {
+            type: 'divider'
+        },
+        {
+            key: 'logout',
+            label: 'Logout',
+            icon: <LogoutOutlined />,
+            onClick: handleLogout
+        }
+    ];
+
+    useEffect(() => {
+        if (!userData) {
+            navigate('/login');
+        }
+    }, [navigate]);
+
     if (!userData) return null;
 
     return (
-        <div className="flex h-screen bg-[#f8f9fa] dark:bg-gray-900">
+        <div className="min-vh-100">
             {/* Sidebar */}
-            <div className={`fixed left-0 top-0 h-full bg-[#232838] dark:bg-gray-800 text-white transition-all duration-300 ${collapsed ? 'w-16' : 'w-64'}`}>
+            <div 
+                className="position-fixed top-0 start-0 bg-dark text-white border-end border-secondary" 
+                style={collapsed ? collapsedSidebarStyle : sidebarStyle}
+            >
                 {/* Logo */}
-                <div className="flex items-center p-4 h-16 border-b border-gray-700">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-2xl font-bold">🚀</span>
-                        {!collapsed && <span className="text-xl font-semibold">Web App</span>}
+                <div className="d-flex align-items-center p-3 border-bottom border-secondary">
+                    <div className="d-flex align-items-center">
+                        <span className="fs-4">🚀</span>
+                        {!collapsed && <span className="ms-2 fs-4">Web App</span>}
                     </div>
                 </div>
 
                 {/* Navigation */}
-                <div className="py-4">
-                    <div className="px-4 py-2 text-xs text-gray-400 uppercase">
-                        {!collapsed && "DATABASE"}
-                    </div>
-                    
+                <div className="py-3">
+                    {!collapsed && (
+                        <div className="px-3 py-2 text-uppercase small text-muted">
+                            DATABASE
+                        </div>
+                    )}
                     <Menu
                         theme="dark"
                         mode="inline"
                         items={menuItems}
                         inlineCollapsed={collapsed}
-                        className="bg-transparent border-none"
+                        className="border-0"
                     />
                 </div>
             </div>
 
             {/* Main Content */}
-            <div className={`flex-1 transition-all duration-300 ${collapsed ? 'ml-16' : 'ml-64'}`}>
+            <div style={collapsed ? collapsedMainContentStyle : mainContentStyle}>
                 {/* Header */}
-                <header className="h-16 bg-white dark:bg-gray-800 border-b dark:border-gray-700 flex items-center justify-between px-4 fixed right-0 left-0 z-10" 
-                    style={{ left: collapsed ? '64px' : '256px' }}>
-                    <div className="flex items-center">
-                        <Button
-                            type="text"
-                            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                            onClick={() => setCollapsed(!collapsed)}
-                            className="text-lg"
-                        />
-                        <div className="ml-4 flex items-center space-x-1">
-                            <span className="text-gray-600">Home</span>
-                            <span className="text-gray-400">/</span>
-                            <span className="text-gray-400">Dashboard</span>
+                <nav className={`navbar navbar-expand-lg fixed-top border-bottom border-secondary ${currentTheme === 'dark' ? 'bg-dark' : 'bg-white'}`}
+                    style={collapsed ? collapsedMainContentStyle : mainContentStyle}>
+                    <div className="container-fluid">
+                        <div className="d-flex align-items-center">
+                            <Button
+                                type="text"
+                                icon={collapsed ? 
+                                    <MenuUnfoldOutlined className={getTextClass()} /> : 
+                                    <MenuFoldOutlined className={getTextClass()} />
+                                }
+                                onClick={() => setCollapsed(!collapsed)}
+                                className="fs-5"
+                            />
+                            <div className="ms-3">
+                                <span className={getTextClass()}>Dashboard</span>
+                                <span className="text-muted mx-2">/</span>
+                                <span className="text-muted">Dashboard</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="flex items-center space-x-4">
-                        <Button type="text" icon={<QuestionCircleOutlined />} />
-                        <Button type="text" icon={<SettingOutlined />} />
-                        <div className="flex items-center">
+                        <div className="d-flex align-items-center gap-3">
+                            <Button
+                                type="text"
+                                icon={<QuestionCircleOutlined className={getTextClass()} />} 
+                            />
+                            <Button 
+                                type="text" 
+                                icon={currentTheme === 'dark' ? 
+                                    <BulbOutlined className="text-white" /> : 
+                                    <BulbFilled className="text-dark" />
+                                }
+                                onClick={toggleTheme}
+                            />
+                            <Button type="text" 
+                                icon={<SettingOutlined className={getTextClass()} />} 
+                            />
                             <Dropdown
                                 menu={{ items: customerItems }}
                                 trigger={['click']}
                                 placement="bottomRight"
-                                overlayClassName="w-64"
                             >
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 px-3 py-2 rounded-lg">
-                                    <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
-                                        <span className="text-white text-sm">T</span>
+                                <div className="d-flex align-items-center gap-2 cursor-pointer">
+                                    <div className="bg-danger rounded-circle d-flex align-items-center justify-content-center" 
+                                        style={{width: '32px', height: '32px'}}>
+                                        <span className="text-white">T</span>
                                     </div>
-                                    <div className="hidden md:block">
-                                        <div className="text-sm font-medium">Main Brnach</div>
-                                        <div className="text-xs text-gray-500">Branch Name A</div>
+                                    <div className="d-none d-md-block">
+                                        <div className={`small fw-medium ${getTextClass()}`}>
+                                            Main Branch
+                                        </div>
+                                        <div className={getTextMutedClass()}>
+                                            Branch Name A
+                                        </div>
                                     </div>
-                                    <CaretDownOutlined className="text-gray-400" />
+                                    <CaretDownOutlined className={getTextClass()} />
                                 </div>
                             </Dropdown>
-                            <div className="ml-4">
-                                <UserOutlined className="text-lg" />
-                            </div>
+                            <Dropdown
+                                menu={{ items: userMenuItems }}
+                                trigger={['click']}
+                                placement="bottomRight"
+                            >
+                                <div className="ms-3 cursor-pointer">
+                                    <UserOutlined className={`fs-5 ${getTextClass()}`} />
+                                </div>
+                            </Dropdown>
                         </div>
                     </div>
-                </header>
+                </nav>
 
                 {/* Main Content Area */}
-                <main className="pt-20 px-6">
-                    <div className="bg-[#1a1f2c] rounded-lg shadow-lg overflow-hidden">
+                <main className={`pt-5 mt-4 px-4 min-vh-100 ${currentTheme === 'dark' ? 'bg-dark text-white' : 'bg-light'}`}>
+                    <div className={`rounded shadow ${currentTheme === 'dark' ? 'bg-darker' : 'bg-white'}`}>
                         {/* Map Header */}
-                        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-                            <div className="flex space-x-4">
-                                <button className="bg-blue-600 text-white px-4 py-2 rounded">
-                                    ACTIVITY
-                                </button>
-                                <button className="bg-gray-700 text-white px-4 py-2 rounded">
-                                    MAPS
-                                </button>
+                        <div className="d-flex align-items-center justify-content-between p-4 border-bottom border-secondary">
+                            <div className="d-flex gap-3">
+                                <button className="btn btn-primary">ACTIVITY</button>
+                                <button className="btn btn-secondary">MAPS</button>
                             </div>
-                            <div className="flex items-center space-x-4">
-                                <div className="text-white">Tracking</div>
-                                <button className="bg-gray-700 text-white px-4 py-2 rounded">
-                                    FILTER
-                                </button>
-                                <div className="flex items-center space-x-2">
-                                    <span className="text-white">Active Users</span>
-                                    <span className="bg-gray-700 text-white px-2 py-1 rounded">1</span>
+                            <div className="d-flex align-items-center gap-3">
+                                <div className={getTextClass()}>Tracking</div>
+                                <button className="btn btn-secondary">FILTER</button>
+                                <div className="d-flex align-items-center gap-2">
+                                    <span className={getTextClass()}>Active Users</span>
+                                    <span className="badge bg-secondary">1</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Map Container */}
-                        <div className="relative h-[80vh]">
-                            <div className="absolute top-4 left-4 z-[999] flex space-x-2">
-                                <button className="map-type-button active">
-                                    Map
-                                </button>
-                                <button className="map-type-button inactive">
-                                    Satellite
-                                </button>
+                        <div className="position-relative" style={{height: '80vh'}}>
+                            <div className="position-absolute top-0 start-0 mt-4 ms-4 z-3 d-flex gap-2">
+                                <button className="btn btn-primary">Map</button>
+                                <button className="btn btn-secondary">Satellite</button>
                             </div>
                             
                             <MapContainer 
                                 center={[-6.2088, 106.8456]} 
                                 zoom={5} 
-                                className="dashboard-map-container"
+                                className="h-100 w-100"
                                 zoomControl={false}
                             >
                                 <TileLayer
@@ -374,42 +437,30 @@ function Dashboard() {
                                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
                                 />
                                 <Marker position={[-6.2088, 106.8456]}>
-                                    <Popup>
-                                        Test Location
-                                    </Popup>
+                                    <Popup>Test Location</Popup>
                                 </Marker>
                             </MapContainer>
 
                             {/* Active Users Sidebar */}
-                            <div className="absolute top-20 right-4 active-users-panel w-64 p-4 z-[999]">
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-8 h-8 bg-gray-600 rounded-full"></div>
+                            <div className="position-absolute top-0 end-0 mt-5 me-4 p-4 rounded shadow-lg" 
+                                style={{
+                                    width: '16rem',
+                                    zIndex: 1000,
+                                    backgroundColor: currentTheme === 'dark' ? '#1a1f2c' : 'white'
+                                }}>
+                                <div className="d-flex align-items-center gap-3">
+                                    <div className="bg-secondary rounded-circle" style={{width: '32px', height: '32px'}}></div>
                                     <div>
-                                        <div className="text-white">Test2</div>
-                                        <div className="text-gray-400 text-sm">Last Login: 2025-01-10 11:25:14</div>
+                                        <div className={getTextClass()}>Test2</div>
+                                        <div className={getTextMutedClass()}>
+                                            Last Login: 2025-01-10 11:25:14
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </main>
-            </div>
-
-            {/* Floating Theme Toggle Button */}
-            <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-[9999]">
-                <Button
-                    type="primary"
-                    shape="circle"
-                    size="large"
-                    icon={currentTheme === 'dark' ? <BulbOutlined /> : <BulbFilled />}
-                    onClick={toggleTheme}
-                    className="shadow-lg hover:scale-110 transition-transform duration-200"
-                    style={{
-                        backgroundColor: currentTheme === 'dark' ? '#4B5563' : '#ffffff',
-                        borderColor: currentTheme === 'dark' ? '#4B5563' : '#e5e7eb',
-                        color: currentTheme === 'dark' ? '#ffffff' : '#000000'
-                    }}
-                />
             </div>
         </div>
     );

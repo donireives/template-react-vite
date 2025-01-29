@@ -29,7 +29,7 @@ function Login() {
             setUserData(userData);
             
             message.success('Login successful!');
-            navigate('/home');
+            navigate('/dashboard');
         } catch (error) {
             if (error.response?.status === 400) {
                 message.error('Invalid credentials. Please check your username and password.');
@@ -44,13 +44,13 @@ function Login() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-            <Card className="w-full max-w-md shadow-lg">
-                <div className="text-center mb-8">
-                    <Title level={2} className="!mb-0">
+        <div className="vh-100 d-flex align-items-center justify-content-center bg-light p-4">
+            <Card className="w-100" style={{ maxWidth: '400px' }}>
+                <div className="text-center mb-4">
+                    <Title level={2} className="mb-0">
                         Welcome Back
                     </Title>
-                    <p className="text-gray-500">Sign in to your account</p>
+                    <p className="text-muted">Sign in to your account</p>
                 </div>
 
                 <Form
@@ -65,7 +65,7 @@ function Login() {
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
                         <Input
-                            prefix={<UserOutlined className="text-gray-400" />}
+                            prefix={<UserOutlined className="text-muted" />}
                             placeholder="Username"
                         />
                     </Form.Item>
@@ -75,7 +75,7 @@ function Login() {
                         rules={[{ required: true, message: 'Please input your password!' }]}
                     >
                         <Input.Password
-                            prefix={<LockOutlined className="text-gray-400" />}
+                            prefix={<LockOutlined className="text-muted" />}
                             placeholder="Password"
                         />
                     </Form.Item>
@@ -84,7 +84,7 @@ function Login() {
                         <Button
                             type="primary"
                             htmlType="submit"
-                            className="w-full"
+                            className="w-100"
                             loading={loading}
                         >
                             Sign In

@@ -1,7 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
 body {
   margin: 0;
+  transition: background-color 0.3s ease;
+}
+
+/* Theme specific styles */
+body.dark-theme {
+  background-color: #212529;
+  color: #ffffff;
+}
+
+body.light-theme {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+/* Smooth transition untuk semua elemen */
+*, *::before, *::after {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
