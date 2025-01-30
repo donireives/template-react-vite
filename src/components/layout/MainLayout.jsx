@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Menu, Dropdown } from 'antd';
 import {
     MenuFoldOutlined,
@@ -30,17 +30,19 @@ import { useTheme } from '@/hooks/useTheme';
 import { useThemeClass } from '@/hooks/useThemeClass';
 import './MainLayout.css';
 
-// Menu Items untuk Sidebar
+// Menu Items untuk Sidebar dengan path
 const menuItems = [
     {
         key: 'dashboard',
         icon: <DashboardOutlined />,
         label: 'Dashboard',
+        path: '/dashboard'
     },
     {
         key: 'alert',
         icon: <AlertOutlined />,
         label: 'Alert',
+        path: '/alert'
     },
     {
         key: 'user-device',
@@ -51,11 +53,13 @@ const menuItems = [
                 key: 'users',
                 icon: <TeamOutlined />,
                 label: 'Users',
+                path: '/users'
             },
             {
                 key: 'devices',
                 icon: <MobileOutlined />,
                 label: 'Devices',
+                path: '/devices'
             },
         ],
     },
@@ -68,16 +72,19 @@ const menuItems = [
                 key: 'sites',
                 icon: <EnvironmentOutlined />,
                 label: 'Sites',
+                path: '/sites'
             },
             {
                 key: 'checkpoint',
                 icon: <AimOutlined />,
                 label: 'Checkpoint',
+                path: '/checkpoint'
             },
             {
                 key: 'geofence',
                 icon: <RadiusSettingOutlined />,
                 label: 'Geofence',
+                path: '/geofence'
             },
         ],
     },
@@ -222,7 +229,7 @@ const customerItems = [
     },
 ];
 
-function MainLayout({ children }) {
+function MainLayout({ children, activePage }) {
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
     const { theme: currentTheme, toggleTheme } = useTheme();
@@ -257,6 +264,26 @@ function MainLayout({ children }) {
         }
     ];
 
+    // Sederhanakan handleMenuClick
+    const handleMenuClick = ({ key }) => {
+        // Cari item menu yang sesuai dengan key
+        const findMenuItem = (items) => {
+            for (let item of items) {
+                if (item.key === key) return item;
+                if (item.children) {
+                    const found = findMenuItem(item.children);
+                    if (found) return found;
+                }
+            }
+            return null;
+        };
+
+        const menuItem = findMenuItem(menuItems);
+        if (menuItem && menuItem.path) {
+            navigate(menuItem.path);
+        }
+    };
+
     return (
         <div className="min-vh-100">
             {/* Sidebar */}
@@ -282,6 +309,8 @@ function MainLayout({ children }) {
                         items={menuItems}
                         inlineCollapsed={collapsed}
                         className="border-0"
+                        defaultSelectedKeys={[activePage]}
+                        onClick={handleMenuClick}
                     />
                 </div>
             </div>
@@ -352,7 +381,7 @@ function MainLayout({ children }) {
 
             {/* Main Content */}
             <div className={`main-content ${collapsed ? 'main-content-collapsed' : 'main-content-expanded'}`}>
-                <main className={`px-4 min-vh-100 ${currentTheme === 'dark' ? 'bg-dark text-white' : 'bg-light'}`}>
+                <main className={`px-3 pt-3 min-vh-100 ${currentTheme === 'dark' ? 'bg-dark text-white' : 'bg-light'}`}>
                     {children}
                 </main>
             </div>

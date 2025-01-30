@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input, Button, Typography, App as AppAntd } from 'antd';
+import { Card, Form, Input, Button, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import MainApi from '@/services/mainApiServices/MainApi';
 import { useNavigate } from 'react-router';
@@ -10,7 +10,6 @@ const { Title } = Typography;
 function Login() {
     const [loading, setLoading] = React.useState(false);
     const navigate = useNavigate();
-    const { message } = AppAntd.useApp();
 
     const onFinish = async (values) => {
         setLoading(true);

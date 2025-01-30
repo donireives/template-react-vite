@@ -27,7 +27,7 @@ function Dashboard() {
     if (!userData) return null;
 
     return (
-        <MainLayout>
+        <MainLayout activePage="dashboard">
             <div className={`rounded shadow ${currentTheme === 'dark' ? 'bg-darker' : 'bg-white'}`}>
                 {/* Map Header */}
                 <div className="d-flex align-items-center justify-content-between p-4 border-bottom border-secondary">
