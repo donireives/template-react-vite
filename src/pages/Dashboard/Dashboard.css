@@ -1,46 +1,13 @@
 /* Import leaflet CSS */
 @import 'leaflet/dist/leaflet.css';
 
-/* Container styling */
+/* Map container */
 .dashboard-map-container {
     width: 100%;
     height: 100%;
 }
 
-/* Sidebar styling */
-.transition {
-    transition: all 0.3s ease;
-}
-
-/* Width utilities */
-.w-25 {
-    width: 25% !important;
-}
-
-.w-auto {
-    width: 80px !important;
-}
-
-/* Margin utilities */
-.ms-25 {
-    margin-left: 25%;
-}
-
-.ms-auto {
-    margin-left: 80px;
-}
-
-/* Header height */
-header {
-    height: 64px;
-}
-
-/* Fix untuk icon marker */
-.leaflet-default-icon-path {
-    background-image: url(https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png);
-}
-
-/* Map container */
+/* Map styling */
 .leaflet-container {
     width: 100%;
     height: 100%;
@@ -86,112 +53,7 @@ header {
     color: white;
 }
 
-/* Active users panel */
-.active-users-panel {
-    background: #1a1f2c;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+/* Fix untuk icon marker */
+.leaflet-default-icon-path {
+    background-image: url(https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png);
 }
-
-/* Utility classes */
-.cursor-pointer {
-    cursor: pointer;
-}
-
-.z-3 {
-    z-index: 1030;
-}
-
-/* Hover effect */
-.hover-bg-light:hover {
-    background-color: rgba(0,0,0,0.05);
-}
-
-/* CSS variables untuk theme */
-:root[class='light'] {
-    --popup-bg: white;
-    --popup-color: #1a1f2c;
-    --control-bg: white;
-    --control-color: #1a1f2c;
-    --control-border: #e5e7eb;
-    --control-hover: #f3f4f6;
-}
-
-:root[class='dark'] {
-    --popup-bg: #1a1f2c;
-    --popup-color: white;
-    --control-bg: #1a1f2c;
-    --control-color: white;
-    --control-border: #374151;
-    --control-hover: #374151;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .w-25 {
-        width: 240px !important;
-    }
-    
-    .ms-25 {
-        margin-left: 240px;
-    }
-}
-
-/* Override Ant Design Menu Dark Theme */
-:where(.css-dev-only-do-not-override-1a15igi).ant-menu-dark,
-:where(.css-dev-only-do-not-override-1a15igi).ant-menu-dark>.ant-menu {
-    background: transparent !important;
-}
-
-.ant-menu.ant-menu-dark {
-    background: transparent !important;
-}
-
-.ant-menu-dark .ant-menu-sub {
-    background: transparent !important;
-}
-
-/* Jika masih ada area yang terpengaruh, tambahkan ini */
-.ant-menu-dark.ant-menu-inline .ant-menu-sub {
-    background: transparent !important;
-}
-
-/* Theme-specific styles */
-.navbar.bg-dark {
-    background-color: #1a1f2c !important;
-}
-
-.navbar.bg-white {
-    background-color: #ffffff !important;
-}
-
-.bg-darker {
-    background-color: #1a1f2c !important;
-}
-
-.bg-dark {
-    background-color: #212529 !important;
-}
-
-.bg-light {
-    background-color: #f8f9fa !important;
-}
-
-.bg-white {
-    background-color: #ffffff !important;
-}
-
-/* Border adjustments */
-.border-secondary {
-    border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Text colors for dark mode */
-.text-light {
-    color: rgba(255, 255, 255, 0.8) !important;
-}
-
-/* Ensure main content fills entire height */
-.min-vh-100 {
-    min-height: 100vh !important;
-} 
