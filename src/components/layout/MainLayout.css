@@ -248,7 +248,7 @@ header {
 }
 
 .ant-menu-dark .ant-menu-sub {
-    background: transparent !important;
+    background-color: transparent !important;
 }
 
 /* Jika masih ada area yang terpengaruh, tambahkan ini */
@@ -317,4 +317,30 @@ header {
 
 .ant-dropdown-open {
     z-index: var(--z-dropdown) !important;
+}
+
+/* Styling untuk submenu */
+.ant-menu-dark .ant-menu-sub {
+    background-color: transparent !important;
+}
+
+.ant-menu-dark .ant-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.ant-menu-dark .ant-menu-item-selected a {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Styling untuk submenu items */
+.ant-menu-dark .ant-menu-submenu-title:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.ant-menu-dark .ant-menu-submenu-selected > .ant-menu-submenu-title {
+    color: rgba(255, 255, 255, 0.85) !important;
 } 

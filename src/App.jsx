@@ -5,6 +5,7 @@ import Login from '@/pages/Auth/Login';
 import Dashboard from '@/pages/Dashboard/Dashboard';
 import Alert from '@/pages/Alert/Alert';
 import NotFound from '@/pages/NotFound';
+import Label from '@/pages/Setting/Label/Label';
 
 function App() {
   const { theme: currentTheme } = useTheme();
@@ -27,6 +28,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/alert" element={<Alert />} />
+          <Route path="/setting-label" element={<Label />} />
           
           {/* 404 Route */}
           <Route path="*" element={<NotFound />} />

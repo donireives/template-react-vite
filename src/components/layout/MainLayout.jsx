@@ -119,23 +119,27 @@ const menuItems = [
                 key: 'sub-branch',
                 icon: <TeamOutlined />,
                 label: 'Sub Branch',
+                path: '/setting-sub-branch'
             },
             {
                 key: 'permission',
                 icon: <KeyOutlined />,
                 label: 'Permission',
+                path: '/setting-permission'
             },
             {
                 key: 'label',
                 icon: <TagOutlined />,
                 label: 'Label',
+                path: '/setting-label'
             },
             {
                 key: 'license',
                 icon: <SafetyCertificateOutlined />,
                 label: 'License',
-            },
-        ],
+                path: '/setting-license'
+            }
+        ]
     },
     {
         key: 'analytics',
@@ -284,6 +288,14 @@ function MainLayout({ children, activePage }) {
         }
     };
 
+    // Tentukan defaultOpenKeys berdasarkan activePage
+    const getDefaultOpenKeys = () => {
+        if (['label', 'sub-branch', 'permission', 'license'].includes(activePage)) {
+            return ['settings'];
+        }
+        return [];
+    };
+
     return (
         <div className="min-vh-100">
             {/* Sidebar */}
@@ -310,6 +322,10 @@ function MainLayout({ children, activePage }) {
                         inlineCollapsed={collapsed}
                         className="border-0"
                         defaultSelectedKeys={[activePage]}
+                        defaultOpenKeys={getDefaultOpenKeys()}
+                        style={{
+                            backgroundColor: 'transparent'
+                        }}
                         onClick={handleMenuClick}
                     />
                 </div>
