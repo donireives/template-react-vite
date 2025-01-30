@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { getUserData } from '@/utils/storage';
-import { useTheme } from '@/hooks/useTheme';
+import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import MainLayout from '@/components/layout/MainLayout';
+import { useTheme } from '@/hooks/useTheme';
 import { useThemeClass } from '@/hooks/useThemeClass';
+import withAuth from '@/components/hoc/withAuth';
 import './Dashboard.css';
 
 function Dashboard() {
-    const navigate = useNavigate();
-    const userData = getUserData();
     const { theme: currentTheme } = useTheme();
     const { getTextClass, getTextMutedClass } = useThemeClass();
 
@@ -17,14 +14,6 @@ function Dashboard() {
         dark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
         light: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
     };
-
-    useEffect(() => {
-        if (!userData) {
-            navigate('/login');
-        }
-    }, [navigate]);
-
-    if (!userData) return null;
 
     return (
         <MainLayout activePage="dashboard">
@@ -90,4 +79,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard; 
+export default withAuth(Dashboard); 

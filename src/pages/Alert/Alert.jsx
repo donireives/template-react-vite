@@ -1,6 +1,7 @@
 import React from 'react';
 import MainLayout from '@/components/layout/MainLayout';
 import { useTheme } from '@/hooks/useTheme';
+import withAuth from '@/components/hoc/withAuth';
 
 function Alert() {
   const { theme: currentTheme } = useTheme();
@@ -17,4 +18,4 @@ function Alert() {
   );
 }
 
-export default Alert; 
+export default withAuth(Alert); 

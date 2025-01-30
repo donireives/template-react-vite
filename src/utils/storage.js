@@ -12,8 +12,8 @@ export const removeUserData = () => {
 };
 
 export const setTokens = (accessToken, refreshToken) => {
-    document.cookie = `accessToken=${accessToken}; path=/; secure; samesite=strict; HttpOnly`;
-    document.cookie = `refreshToken=${refreshToken}; path=/; secure; samesite=strict; HttpOnly`;
+    document.cookie = `accessToken=${accessToken}; path=/; secure; samesite=strict;`;
+    document.cookie = `refreshToken=${refreshToken}; path=/; secure; samesite=strict;`;
 };
 
 export const getTokens = () => {
