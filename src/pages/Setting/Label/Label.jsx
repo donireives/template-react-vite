@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import MainLayout from '@/components/layout/MainLayout';
 import { useTheme } from '@/hooks/useTheme';
 import withAuth from '@/components/hoc/withAuth';
-import { Table, Button, Space, Input, Tag, Modal, Form, message, App, Select } from 'antd';
-import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
+import { Table, Button, Space, Input, Tag, Modal, Form, message, App, Select, Dropdown } from 'antd';
+import { SearchOutlined, PlusOutlined, MoreOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import MainApi from '@/services/mainApiServices/MainApi';
 import LabelModal from '@/components/label/LabelModal';
 
@@ -171,7 +171,7 @@ function Label() {
             dataIndex: 'status',
             key: 'status',
             render: (status) => (
-                <Tag color={status === 'Completed' ? 'green' : 'gold'}>
+                <Tag color={status === 'Completed' ? 'blue' : 'red'}>
                     {status}
                 </Tag>
             ),
@@ -179,20 +179,38 @@ function Label() {
         {
             title: 'Action',
             key: 'action',
-            render: (_, record) => (
-                <Space size="middle">
-                    <Button type="link" onClick={() => showModal(record)}>
-                        Edit
-                    </Button>
-                    <Button 
-                        type="link" 
-                        danger 
-                        onClick={() => handleDelete(record)}
+            width: 80,
+            render: (_, record) => {
+                const items = [
+                    {
+                        key: 'edit',
+                        icon: <EditOutlined />,
+                        label: 'Edit',
+                        onClick: () => showModal(record)
+                    },
+                    {
+                        key: 'delete',
+                        icon: <DeleteOutlined />,
+                        label: 'Delete',
+                        danger: true,
+                        onClick: () => handleDelete(record)
+                    }
+                ];
+
+                return (
+                    <Dropdown
+                        menu={{ items }}
+                        placement="bottomRight"
+                        trigger={['click']}
                     >
-                        Delete
-                    </Button>
-                </Space>
-            ),
+                        <Button 
+                            type="text" 
+                            icon={<MoreOutlined />}
+                            className="border-0"
+                        />
+                    </Dropdown>
+                );
+            }
         },
     ];
 
