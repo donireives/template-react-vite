@@ -12,7 +12,8 @@
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "antd": "^5.14.1"
+    "antd": "^5.14.1",
+    "@ant-design/cssinjs": "^1.18.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
