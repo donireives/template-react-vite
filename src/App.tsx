@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router'
 import Login from './pages/Auth/Login'
 import Dashboard from './pages/Dashboard/Dashboard'
+import LabelSetting from './pages/Settings/LabelSetting'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
       </Route>
+      <Route path="/setting-label" element={<LabelSetting />} />
     </Routes>
   )
 }

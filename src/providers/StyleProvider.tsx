@@ -8,17 +8,18 @@ interface Props {
 
 export function AntdProvider({ children }: Props) {
   return (
-    <StyleProvider hashPriority="high">
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: '#428cf8',
-          },
-          algorithm: theme.defaultAlgorithm,
-        }}
-      >
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#428cf8',
+        },
+        algorithm: theme.defaultAlgorithm,
+      }}
+      prefixCls="ant"
+    >
+      <StyleProvider hashPriority="low">
         {children}
-      </ConfigProvider>
-    </StyleProvider>
+      </StyleProvider>
+    </ConfigProvider>
   )
 } 

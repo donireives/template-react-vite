@@ -57,7 +57,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-[#428cf8] flex items-center justify-center px-4">
+    <div style={{ backgroundColor: '#428cf8' }} className="min-h-screen flex items-center justify-center px-4">
       <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-[480px]">
         <div className="mb-8">
           <img src="/vite.svg" alt="Logo" className="w-12 h-12" />
@@ -136,7 +136,7 @@ export default function Login() {
               htmlType="submit"
               size="large"
               loading={loading}
-              className="w-full bg-[#428cf8] hover:bg-[#3b7de0]"
+              className="w-full"
             >
               Login to Your Account
             </Button>

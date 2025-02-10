@@ -6,6 +6,8 @@
   height: 100vh;
   transition: all 0.3s;
   z-index: 1000;
+  background-color: #fff;
+  border-right: 1px solid #f0f0f0;
 }
 
 .sidebar-expanded {
@@ -20,7 +22,7 @@
 .logo-section {
   height: 64px;
   padding: 0 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #f0f0f0;
 }
 
 /* Header */
@@ -31,6 +33,8 @@
   height: 64px;
   transition: all 0.3s;
   z-index: 999;
+  background-color: #fff;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .main-header-expanded {
@@ -47,12 +51,8 @@
   transition: all 0.3s;
   min-height: 100vh;
   padding-top: 64px;
-  background-color: #f0f2f5; /* Light mode background */
+  background-color: #f0f2f5;
   z-index: 1;
-}
-
-.main-content.dark {
-  background-color: #181818; /* Dark mode background */
 }
 
 .main-content-expanded {
@@ -84,6 +84,7 @@
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
   }
 
   .sidebar-expanded {
@@ -94,10 +95,22 @@
   .main-content {
     left: 0 !important;
     margin-left: 0 !important;
+    width: 100% !important;
   }
 
   .mobile-visible {
     display: block !important;
+  }
+
+  /* Tambahkan style untuk overlay */
+  .sidebar-overlay {
+    display: block;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .sidebar-expanded + .sidebar-overlay {
+    opacity: 1;
   }
 }
 
@@ -107,21 +120,9 @@
   }
 }
 
-/* Tambahkan style untuk menu */
-:where(.css-dev-only-do-not-override-*).ant-menu-dark .ant-menu-item-selected {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-:where(.css-dev-only-do-not-override-*).ant-menu-light .ant-menu-item-selected {
-  background-color: #e6f4ff;
-}
-
+/* Menu styles */
 .ant-menu-inline .ant-menu-item,
 .ant-menu-inline .ant-menu-submenu-title {
   margin-top: 4px !important;
   margin-bottom: 4px !important;
-}
-
-.ant-menu-dark .ant-menu-inline.ant-menu-sub {
-  background: transparent;
 } 

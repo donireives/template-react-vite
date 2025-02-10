@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Menu, Dropdown, MenuProps } from 'antd'
 import type { MenuProps as AntdMenuProps} from 'antd'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UserOutlined,
-  BulbOutlined,
-  BulbFilled,
   SettingOutlined,
   CaretDownOutlined,
   LogoutOutlined,
@@ -151,11 +149,11 @@ const customerItems: MenuItem[] = [
     label: (
       <div className="flex items-center gap-3 p-2">
         <div className="rounded-full bg-primary flex items-center justify-center w-8 h-8">
-          <span className="text-white text-sm">B1</span>
+          <span className="text-sm">B1</span>
         </div>
         <div>
           <div className="font-medium">SubBranch 1</div>
-          <div className="text-sm text-gray-500">42 users</div>
+          <div className="text-sm text-gray-500">description</div>
         </div>
       </div>
     ),
@@ -184,16 +182,31 @@ const menuPaths = new Map([
 export default function MainLayout({ children, activePage }: MainLayoutProps) {
   const [collapsed, setCollapsed] = useState(false)
   const navigate = useNavigate()
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+
+  // Tambahkan useEffect untuk handle resize window
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setCollapsed(true)
+      }
+    }
+
+    // Set initial state
+    handleResize()
+
+    // Add event listener
+    window.addEventListener('resize', handleResize)
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   const handleLogout = () => {
     removeUserData()
     removeTokens()
     navigate('/login')
-  }
-
-  const handleThemeToggle = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light')
   }
 
   const userMenuItems: MenuItem[] = [
@@ -214,10 +227,15 @@ export default function MainLayout({ children, activePage }: MainLayoutProps) {
     }
   ]
 
+  // Tambahkan handler untuk menu click pada mobile
   const handleMenuClick: AntdMenuProps['onClick'] = ({ key }) => {
     const path = menuPaths.get(key.toString())
     if (path) {
       navigate(path)
+      // Auto collapse pada mobile setelah menu diklik
+      if (window.innerWidth <= 768) {
+        setCollapsed(true)
+      }
     }
   }
 
@@ -243,7 +261,7 @@ export default function MainLayout({ children, activePage }: MainLayoutProps) {
   return (
     <div className="min-h-screen">
       {/* Sidebar */}
-      <div className={`sidebar ${theme === 'dark' ? 'bg-[#001529]' : 'bg-white'} ${collapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
+      <div className={`sidebar bg-white ${collapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
         {/* Logo Section */}
         <div className="logo-section flex items-center">
           <div className="flex items-center">
@@ -254,7 +272,6 @@ export default function MainLayout({ children, activePage }: MainLayoutProps) {
 
         {/* Navigation */}
         <Menu
-          theme={theme}
           mode="inline"
           defaultSelectedKeys={[activePage]}
           defaultOpenKeys={getDefaultOpenKeys()}
@@ -262,13 +279,10 @@ export default function MainLayout({ children, activePage }: MainLayoutProps) {
           onClick={handleMenuClick}
           inlineCollapsed={collapsed}
           className="border-none"
-          style={{
-            backgroundColor: 'transparent'
-          }}
         />
       </div>
 
-      {/* Overlay for mobile */}
+      {/* Overlay - tambahkan onClick untuk collapse */}
       {!collapsed && (
         <div 
           className="sidebar-overlay" 
@@ -277,7 +291,7 @@ export default function MainLayout({ children, activePage }: MainLayoutProps) {
       )}
 
       {/* Header */}
-      <header className={`main-header border-b ${theme === 'dark' ? 'bg-[#001529] text-white border-[#303030]' : 'bg-white border-[#f0f0f0]'} ${collapsed ? 'main-header-collapsed' : 'main-header-expanded'}`}>
+      <header className={`main-header border-b bg-white ${collapsed ? 'main-header-collapsed' : 'main-header-expanded'}`}>
         <div className="flex justify-between items-center h-full px-6">
           {/* Left Side */}
           <div className="flex items-center">
@@ -298,12 +312,6 @@ export default function MainLayout({ children, activePage }: MainLayoutProps) {
 
           {/* Right Side */}
           <div className="flex items-center gap-2">
-            <Button
-              type="text"
-              icon={theme === 'dark' ? <BulbFilled /> : <BulbOutlined />}
-              onClick={handleThemeToggle}
-            />
-
             <Dropdown menu={{ items: userMenuItems }} trigger={['click']}>
               <Button type="text">
                 <UserOutlined />
@@ -316,7 +324,7 @@ export default function MainLayout({ children, activePage }: MainLayoutProps) {
       </header>
 
       {/* Main Content */}
-      <div className={`main-content ${theme === 'dark' ? 'dark' : ''} ${collapsed ? 'main-content-collapsed' : 'main-content-expanded'}`}>
+      <div className={`main-content ${collapsed ? 'main-content-collapsed' : 'main-content-expanded'}`}>
         <div className="main-content-inner">
           {children}
         </div>
