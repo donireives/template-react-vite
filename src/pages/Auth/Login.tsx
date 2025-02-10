@@ -23,7 +23,7 @@ export default function Login() {
     setError(null)
     try {
       const response = await MainApi.auth.login(values.username, values.password)
-      setTokens(response.token, response.token)
+      setTokens(response.accessToken, response.refreshToken)
       
       const userData = {
         id: response.id,

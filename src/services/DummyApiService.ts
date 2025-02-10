@@ -17,6 +17,18 @@ interface Todo {
     userId: number;
 }
 
+interface LoginResponse {
+    accessToken: string
+    refreshToken: string
+    id: number
+    username: string
+    email: string
+    firstName: string
+    lastName: string
+    gender: string
+    image: string
+}
+
 api.interceptors.request.use(
     (config) => {
         const tokens = getTokens()
@@ -42,7 +54,7 @@ api.interceptors.response.use(
 
 const DummyApiService = {
     auth: {
-        login: async (username: string, password: string) => {
+        login: async (username: string, password: string): Promise<LoginResponse> => {
             try {
                 const response = await api.post('/auth/login', {
                     username,

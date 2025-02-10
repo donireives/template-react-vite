@@ -13,6 +13,17 @@ import {
   DashboardOutlined,
   AlertOutlined,
   TagOutlined,
+  TeamOutlined,
+  MobileOutlined,
+  EnvironmentOutlined,
+  AimOutlined,
+  RadiusSettingOutlined,
+  HistoryOutlined,
+  FormOutlined,
+  CheckSquareOutlined,
+  KeyOutlined,
+  SafetyCertificateOutlined,
+  AreaChartOutlined,
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router'
 import { removeUserData, removeTokens } from '../../utils/storage'
@@ -39,17 +50,98 @@ const menuItems: MenuItem[] = [
     label: 'Alert',
   },
   {
+    key: 'user-device',
+    icon: <UserOutlined />,
+    label: 'User & Device',
+    children: [
+      {
+        key: 'users',
+        icon: <TeamOutlined />,
+        label: 'Users',
+      },
+      {
+        key: 'devices',
+        icon: <MobileOutlined />,
+        label: 'Devices',
+      },
+    ],
+  },
+  {
+    key: 'site',
+    icon: <EnvironmentOutlined />,
+    label: 'Site',
+    children: [
+      {
+        key: 'sites',
+        icon: <EnvironmentOutlined />,
+        label: 'Sites',
+      },
+      {
+        key: 'checkpoint',
+        icon: <AimOutlined />,
+        label: 'Checkpoint',
+      },
+      {
+        key: 'geofence',
+        icon: <RadiusSettingOutlined />,
+        label: 'Geofence',
+      },
+    ],
+  },
+  {
+    key: 'activity',
+    icon: <HistoryOutlined />,
+    label: 'Activity',
+    children: [
+      {
+        key: 'forms',
+        icon: <FormOutlined />,
+        label: 'Forms',
+      },
+      {
+        key: 'task',
+        icon: <CheckSquareOutlined />,
+        label: 'Task',
+      },
+      {
+        key: 'activity-log',
+        icon: <HistoryOutlined />,
+        label: 'Activity',
+      },
+    ],
+  },
+  {
     key: 'settings',
     icon: <SettingOutlined />,
     label: 'Settings',
     children: [
       {
+        key: 'sub-branch',
+        icon: <TeamOutlined />,
+        label: 'Sub Branch',
+      },
+      {
+        key: 'permission',
+        icon: <KeyOutlined />,
+        label: 'Permission',
+      },
+      {
         key: 'label',
         icon: <TagOutlined />,
         label: 'Label',
+      },
+      {
+        key: 'license',
+        icon: <SafetyCertificateOutlined />,
+        label: 'License',
       }
     ]
-  }
+  },
+  {
+    key: 'analytics',
+    icon: <AreaChartOutlined />,
+    label: 'Analytics',
+  },
 ]
 
 // Customer Items untuk Branch Selector
@@ -74,7 +166,19 @@ const customerItems: MenuItem[] = [
 const menuPaths = new Map([
   ['dashboard', '/dashboard'],
   ['alert', '/alert'],
+  ['users', '/users'],
+  ['devices', '/devices'],
+  ['sites', '/sites'],
+  ['checkpoint', '/checkpoint'],
+  ['geofence', '/geofence'],
+  ['forms', '/forms'],
+  ['task', '/task'],
+  ['activity-log', '/activity-log'],
+  ['sub-branch', '/setting-sub-branch'],
+  ['permission', '/setting-permission'],
   ['label', '/setting-label'],
+  ['license', '/setting-license'],
+  ['analytics', '/analytics'],
 ])
 
 export default function MainLayout({ children, activePage }: MainLayoutProps) {
@@ -118,10 +222,22 @@ export default function MainLayout({ children, activePage }: MainLayoutProps) {
   }
 
   const getDefaultOpenKeys = (): string[] => {
-    if (['label', 'sub-branch', 'permission', 'license'].includes(activePage)) {
-      return ['settings']
+    const parentMenus = {
+      users: 'user-device',
+      devices: 'user-device',
+      sites: 'site',
+      checkpoint: 'site',
+      geofence: 'site',
+      forms: 'activity',
+      task: 'activity',
+      'activity-log': 'activity',
+      'sub-branch': 'settings',
+      permission: 'settings',
+      label: 'settings',
+      license: 'settings',
     }
-    return []
+    
+    return [parentMenus[activePage as keyof typeof parentMenus]].filter(Boolean)
   }
 
   return (
@@ -146,6 +262,9 @@ export default function MainLayout({ children, activePage }: MainLayoutProps) {
           onClick={handleMenuClick}
           inlineCollapsed={collapsed}
           className="border-none"
+          style={{
+            backgroundColor: 'transparent'
+          }}
         />
       </div>
 

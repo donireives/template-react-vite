@@ -52,7 +52,7 @@
 }
 
 .main-content.dark {
-  background-color: #141414; /* Dark mode background */
+  background-color: #181818; /* Dark mode background */
 }
 
 .main-content-expanded {
@@ -105,4 +105,23 @@
   .sidebar-overlay {
     display: none !important;
   }
+}
+
+/* Tambahkan style untuk menu */
+:where(.css-dev-only-do-not-override-*).ant-menu-dark .ant-menu-item-selected {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:where(.css-dev-only-do-not-override-*).ant-menu-light .ant-menu-item-selected {
+  background-color: #e6f4ff;
+}
+
+.ant-menu-inline .ant-menu-item,
+.ant-menu-inline .ant-menu-submenu-title {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}
+
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  background: transparent;
 } 
