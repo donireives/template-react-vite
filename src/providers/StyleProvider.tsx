@@ -1,5 +1,5 @@
 import { StyleProvider } from '@ant-design/cssinjs'
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, theme } from 'antd'
 import { ReactNode } from 'react'
 
 interface Props {
@@ -9,7 +9,14 @@ interface Props {
 export function AntdProvider({ children }: Props) {
   return (
     <StyleProvider hashPriority="high">
-      <ConfigProvider>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#000',
+          },
+          algorithm: theme.defaultAlgorithm,
+        }}
+      >
         {children}
       </ConfigProvider>
     </StyleProvider>
