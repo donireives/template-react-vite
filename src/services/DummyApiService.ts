@@ -10,7 +10,13 @@ const api = axios.create({
     },
 })
 
-// Add request interceptor untuk menambahkan token
+interface Todo {
+    id: number;
+    todo: string;
+    completed: boolean;
+    userId: number;
+}
+
 api.interceptors.request.use(
     (config) => {
         const tokens = getTokens()
@@ -24,20 +30,17 @@ api.interceptors.request.use(
     }
 )
 
-// Add response interceptor untuk handle token expired
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
         if (error.response?.status === 401) {
-            // Handle unauthorized error
-            // Misalnya redirect ke login
             window.location.href = '/login'
         }
         return Promise.reject(error)
     }
 )
 
-const MainApi = {
+const DummyApiService = {
     auth: {
         login: async (username: string, password: string) => {
             try {
@@ -63,8 +66,7 @@ const MainApi = {
                     }
                 })
                 
-                // Transform data
-                const transformedData = response.data.todos.map(item => ({
+                const transformedData = response.data.todos.map((item: Todo) => ({
                     key: item.id,
                     name: item.todo,
                     status: item.completed ? 'Completed' : 'Pending',
@@ -89,7 +91,7 @@ const MainApi = {
                 const response = await api.post('/todos/add', {
                     todo: data.name,
                     completed: data.status === 'Completed',
-                    userId: 5, // Bisa disesuaikan dengan user yang sedang login
+                    userId: 5,
                 })
                 
                 return {
@@ -132,4 +134,4 @@ const MainApi = {
     }
 }
 
-export default MainApi 
+export default DummyApiService 

@@ -1,15 +1,17 @@
+import MainLayout from '../../components/Layout/MainLayout'
 import withAuth from '../../components/Hoc/WithAuth'
+import { Typography } from 'antd'
 
-interface DashboardProps {
-    title?: string
-}
+const { Title } = Typography
 
-const Dashboard: React.FC<DashboardProps> = ({ title = 'Dashboard' }) => {
+function Dashboard() {
     return (
-        <div>
-            <h1>{title}</h1>
-            {/* Dashboard content */}
-        </div>
+        <MainLayout activePage="dashboard">
+            <div className="relative bg-white p-6 rounded-lg shadow-sm">
+                <Title level={2}>Dashboard</Title>
+                <p className="text-gray-600">Welcome to your dashboard!</p>
+            </div>
+        </MainLayout>
     )
 }
 

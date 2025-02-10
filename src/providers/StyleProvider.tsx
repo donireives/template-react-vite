@@ -12,7 +12,7 @@ export function AntdProvider({ children }: Props) {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: '#000',
+            colorPrimary: '#428cf8',
           },
           algorithm: theme.defaultAlgorithm,
         }}
