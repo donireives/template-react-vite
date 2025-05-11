@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { getUserData, getTokens } from '../../utils/storage'
 
 type ComponentType = React.ComponentType<any>

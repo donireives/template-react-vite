@@ -23,7 +23,7 @@ import {
   SafetyCertificateOutlined,
   AreaChartOutlined,
 } from '@ant-design/icons'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { removeUserData, removeTokens } from '../../utils/storage'
 import './MainLayout.css'
 

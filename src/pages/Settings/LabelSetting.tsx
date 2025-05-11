@@ -23,7 +23,6 @@ function LabelSetting() {
     pageSize: 10,
     total: 0
   })
-  const [searchText, setSearchText] = useState('')
   const [addEditModalVisible, setAddEditModalVisible] = useState(false)
   const [deleteModalVisible, setDeleteModalVisible] = useState(false)
   const [selectedLabel, setSelectedLabel] = useState<LabelData | null>(null)
@@ -52,11 +51,6 @@ function LabelSetting() {
 
   const handleTableChange = (newPagination: any) => {
     fetchData(newPagination.current, newPagination.pageSize)
-  }
-
-  const handleSearch = (value: string) => {
-    setSearchText(value)
-    // Implement search logic here if API supports it
   }
 
   const handleAdd = () => {
@@ -159,7 +153,7 @@ function LabelSetting() {
           <Input
             placeholder="Search labels..."
             prefix={<SearchOutlined className="text-gray-400" />}
-            onChange={e => handleSearch(e.target.value)}
+            onChange={() => { /* search logic belum diimplementasikan */ }}
             className="max-w-xs"
             allowClear
           />
@@ -189,7 +183,7 @@ function LabelSetting() {
         visible={addEditModalVisible}
         onCancel={() => setAddEditModalVisible(false)}
         onSuccess={handleModalSuccess}
-        initialData={selectedLabel}
+        initialData={selectedLabel ?? undefined}
       />
 
       {/* Delete Modal */}

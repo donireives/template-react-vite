@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Checkbox, Form, Input, Typography, message, Alert } from 'antd'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import MainApi from '../../services/DummyApiService'
 import { setUserData, setTokens } from '../../utils/storage'
 
